@@ -1,5 +1,5 @@
 <p align="left"><b>
-Massive AI is a library of AI behavior design tools and algorithms to create realistic and immersive AI behaviors for games and simulations. The library is designed with ease of use and flexibility in mind and all its different systems can be used independently or integrated into one another. Currently, it is available for Unity engine only but a long term goal of this library is to be ported to C++, so it can be used with other game engines as well.
+Massive AI is a library of AI behavior design tools and algorithms to create realistic and immersive AI behaviors for games and simulations. The library is designed with ease of use and flexibility in mind and all its different systems can be used independently or integrated into one another. Currently, it is available for Unity engine only, but a long-term goal of this library is to be ported to C++, so it can be used with other game engines as well.
 </b></p>
 
 <h3 align="center">Community</h3>
