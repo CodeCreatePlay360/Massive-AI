@@ -11,8 +11,8 @@ namespace MassiveAI.Fuzzy.MemberFunctions
         private readonly double _centerLeft;
         private readonly double _centerRight;
         private readonly double _max;
-            
-		
+
+
         public Trapezoid(double min, double centerLeft, double centerRight, double max)
         {
             _min = min;
