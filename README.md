@@ -1,7 +1,5 @@
 <h4 align="left">
-Massive AI is your ultimate library of decision-making algorithms and logic-design tools, perfect for creating realistic and immersive AI characters in games and simulations. It also includes tools for communications, spatial querying, and navigation. Designed with ease of use and flexibility in mind, our systems can function independently or be seamlessly integrated.
-
-Currently, Massive AI is available exclusively for the Unity engine. However, we are actively working on porting Massive AI to C++, which will expand its usability across other game engines.
+Massive AI is a library of decision-making algorithms and logic-design tools for creating AI and logic driven systems, such as games, simulations, and software applications. It includes tools for communication, spatial querying, and navigation. Designed with ease of use and flexibility in mind, all systems in this library can function independently and integrate seamlessly. Currently, most of the MassiveAI components are written in C#. However, the long-term goal is to port it to C++, expanding its usability across different game engines and software platforms.
 </h4>
 
 <h3 align="center">Community</h3>
@@ -16,22 +14,16 @@ Currently, Massive AI is available exclusively for the Unity engine. However, we
 ### Table of contents
 1. [Install](https://github.com/CodeCreatePlay360/Massive-AI)
 2. [Getting Started](https://github.com/CodeCreatePlay360/Massive-AI)
-3. [Behavior Design Tools](https://github.com/CodeCreatePlay360/Massive-AI)
-   - [StateMachine](https://github.com/CodeCreatePlay360/Massive-AI)
-   - [Action Sequence](https://github.com/CodeCreatePlay360/Massive-AI)
-4. [Decision-Making Algorithms](https://github.com/CodeCreatePlay360/Massive-AI)
-   - [Fuzzy Logic](https://github.com/CodeCreatePlay360/Massive-AI)
+3. **Behavior Design Tools:** [StateMachine](https://github.com/CodeCreatePlay360/Massive-AI) - [Action Sequence](https://github.com/CodeCreatePlay360/Massive-AI)
+4. **Decision-Making:** [FuzzyLogic](https://github.com/CodeCreatePlay360/Massive-AI)
+5. **Communication:** [Messaging]() - [Events]()
+6. **Tools for game AI characters:** [Campsite]()
 
+> 💫 It takes a considerable amount of time and effort and maintain Massive AI and keeping it updated with new features and tools, so if you find it useful for your projects, then consider giving it a star on GitHub, it will help Massive AI reach more audience. Also check out the demo projects in 'Demos' folder, showcasing various tools and features of this library.
 
-> ⭐ It takes a considerable amount of time and effort and maintain Massive AI and keeping it updated with new features and tools, so if you find it useful for your projects, then consider giving it a star on GitHub, it will help Massive AI reach more audience. Also check out the demo projects in 'Demos' folder, showcasing various tools and features of this library.
+🛠️ **Install:-** Download this repository and import it in root of your Unity project, you can safely put it in your existing projects, all code is contained in a separate namespace so zero conflicts with other systems is guaranteed.
 
-
-***
-
-### 🛠️ Install
-Download this repository and import it in root of your Unity project, you can safely put it in your existing projects, all code is contained in a separate namespace so zero conflicts with other systems is guaranteed.
-
-<h2 align="center">🔷 Behavior Design Tools</h2>
+<h2 align="center">🟦 Behavior Design Tools</h2>
 
 ### 🟦 State Machine
 
@@ -219,16 +211,16 @@ actionsSeq.SetStopProcedure(ActionsSeq<AICharacter>.StopProcedure.StopAfterCurre
 actionsSeq.IsStopped()
 ```
 
-<h2 align="center">🔷 Decision-Making Algorithms</h2>
+<h2 align="center">🟦 Decision Tools</h2>
 
 ### 🟦 Fuzzy Logic
 
 Fuzzy logic is a form of logic that allows reasoning to be approximate rather than fixed and exact. It is particularly useful in applications where human-like reasoning is needed, as it can handle the concept of partial truth—truth values between "completely true" and "completely false." This is in contrast to classical logic, where every statement must be either true or false.
 
 **Key Concepts of Fuzzy Logic**  
-- **Fuzzy Sets** In classical set theory, an element either belongs to a set or does not (binary logic: 0 or 1). In fuzzy sets, an element can partially belong to a set with a degree of membership ranging from 0 to 1. For example, consider the set of 'tall people.' Instead of defining a strict height threshold, fuzzy logic allows for varying degrees of 'tallness.'
+- **Fuzzy Sets** In classical set theory, an element either belongs to a set or does not (binary logic: 0 or 1). In fuzzy sets, an element can partially belong to a set with a degree of membership ranging from 0 to 1. For example, consider the set of 'tall people'. Instead of defining a strict height threshold, fuzzy logic allows for varying degrees of 'tallness.'
 
-- **Membership Functions** These functions define how each point in the input space is mapped to a degree of membership between 0 and 1. Common shapes for membership functions include 'Triangular', 'Trapezoidal', and 'Gaussian'.
+- **Membership Functions** These functions define how each point in the input space is mapped to a degree of membership between 0 and 1. Common shapes for membership functions include 'Triangular', 'Trapezoidal', and 'Gaussian' etc.
 
 - **Fuzzy Rules** Fuzzy logic systems use 'if-then' rules to model human reasoning. For example, 'If the distance to the enemy is close, then the threat level is high.' These rules are defined using linguistic variables, which are described using fuzzy sets.
 
@@ -237,38 +229,58 @@ For example, converting the exact distance of 30 meters into a fuzzy value that 
 
 - **Inference** The fuzzy inference process applies fuzzy rules to the fuzzified inputs to derive fuzzy outputs. There are several methods for inference, with the most common being 'Mamdani' and 'Sugeno' methods.
 
-- **Defuzzification:**
-The process of converting fuzzy output values back into crisp values. Common defuzzification methods include the 'Centroid' method (finding the center of gravity of the fuzzy set) and the 'Maximum Membership' method.
+- **Defuzzification:** The process of converting fuzzy output values back into crisp values. Common defuzzification methods include the 'Centroid' method (finding the center of gravity of the fuzzy set) and the 'Maximum Membership' method.
 
-The code below demonstrates a basic usage of 'FuzzyLogic' in your game. For more comprehensive examples, see the code included in the demos folder.
+To learn more about 'FuzzyLogic', it is highly recommended to see chapter #10 of 'Programming Game AI by Example' by 'Mat Buckland'. The code below demonstrates a basic usage of 'FuzzyLogic' in your game, using the current implementation. See the comments along the code for detailed explanation.
 
 ```
-// Initialize a constant for the current amount of ammunition
-const int ammoAmount = 55;
+/**
+* This class demonstrates a simple onboard automated fire alarm control system using 'FuzzyLogic'.
+* It alerts operators about potential fire threats on a scale of 0 to 100.
+* This approach is beneficial (as opposed to binary truth or false of a statement) because
+* there is no single fixed temperature value that can be said to trigger a fire.
+* Instead, it provides operators with a threat level, helping them assess and respond to potential fire risks.
+*/
 
-// Define constants representing fuzzy sets for ammunition levels
+// Crisp temperature value as received from sensors.
+int temperatureValue = 12;  // this value can range from 0-min to 100-max
+
+// Define constants representing fuzzy sets for 
+// different levels or statuses.
 const int low = 0;
 const int medium = 1;
 const int high = 2;
 
-// Create a FuzzyInput to represent the ammunition status
-FuzzyInput ammoStatus = new(() => ammoAmount);
-ammoStatus.Set(low, new Triangle(0, 25, 50));
-ammoStatus.Set(medium, new Triangle(25, 50, 75));
-ammoStatus.Set(high, new Triangle(50, 75, 100));
+// Convert the crisp input values (i.e. temperatureValue) into fuzzy values,
+// for each of the temperature levels (i.e low, medium, high) using the 
+// membership functions for the input fuzzy sets.
+FuzzyInput temperature = new(() => temperatureValue);
+temperature.Set(low,    new Triangle(0, 25, 50));
+temperature.Set(medium, new Triangle(25, 50, 75));
+temperature.Set(high,   new Triangle(50, 75, 100));
 
-// Create a FuzzyOutput to represent the reload necessity
-FuzzyOutput shouldReload = new();
-shouldReload.Set(low, new Triangle(-0.5, 0, 0.5));
-shouldReload.Set(medium, new Triangle(0, 0.5, 1));
-shouldReload.Set(high, new Triangle(0.5, 1, 1.5));
+// Create a FuzzyOutput to represent the threat level, for each of the different
+// levels of temperature (i.e low, medium, high)
+FuzzyOutput threatLevel = new();
+threatLevel.Set(low,    new LeftShoulder(0, 0.3));
+threatLevel.Set(medium, new Triangle(0.3, 0.5, 0.7));
+threatLevel.Set(high,   new RightShoulder(0.7, 1.0));
 
-// Define fuzzy rules to determine the reload necessity based on ammo status
-FuzzyRule.If(ammoStatus.Is(high)).Then(shouldReload.Is(low));
-FuzzyRule.If(ammoStatus.Is(medium)).Then(shouldReload.Is(medium));
-FuzzyRule.If(ammoStatus.Is(low)).Then(shouldReload.Is(high));
+// Create fuzzy rules to determine threat level based on temperature.
+FuzzyRule.If(temperature.Is(low)).Then(threatLevel.Is(low));
+FuzzyRule.If(temperature.Is(medium)).Then(threatLevel.Is(medium));
+FuzzyRule.If(temperature.Is(high)).Then(threatLevel.Is(high));
 
-// Evaluate the fuzzy output for the reload necessity and log the result
-string result = $"Reload desirability when (ammoStatus: {ammoStatus.Value}) = {shouldReload.Evaluate()}";
-UnityEngine.Debug.Log(result);
+// Evaluate the fuzzy output for the threat level and log the result.
+double threatVal = System.Math.Round(threatLevel.Evaluate(), 3);
+string msg = $"Threat level when temperature is {temperatureValue} = {threatVal}";
+UnityEngine.Debug.Log(msg);
 ```
+
+It is also possible to use and combine conditional 'if, else' statements and logical 'and, or' operators on fuzzy inputs 'antecedents' and outputs 'consequents'.
+
+```
+FuzzyRule.If(condition01.Is(low)).And(condition02.Is(high)).Then(consequence01.Is(low)).And(consequence02.Is(high));
+```
+
+To demonstrate advanced usages of 'FuzzyLogic' there are demo projects included in 'src/demos' folder.

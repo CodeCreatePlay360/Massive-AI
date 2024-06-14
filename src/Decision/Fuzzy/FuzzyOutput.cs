@@ -10,6 +10,7 @@ namespace MassiveAI.Fuzzy
     {
         private readonly Dictionary<int, Consequent> _fuzzyActions = new Dictionary<int, Consequent>();
         
+		
         public IConsequent Is(int consequent)
         {
             return _fuzzyActions[consequent];
@@ -32,4 +33,3 @@ namespace MassiveAI.Fuzzy
         }
     }
 }
-

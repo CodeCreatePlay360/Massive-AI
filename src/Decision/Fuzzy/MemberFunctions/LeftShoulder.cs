@@ -10,6 +10,7 @@ namespace MassiveAI.Fuzzy.MemberFunctions
         private readonly double _min;
         private readonly double _max;
         
+		
         public LeftShoulder(double min, double max)
         {
             _min = min;

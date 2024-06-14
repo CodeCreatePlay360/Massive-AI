@@ -7,6 +7,7 @@ namespace MassiveAI.Fuzzy
     {
         private readonly ICondition _condition;
 
+
         internal FuzzyRuleBuilder(ICondition condition)
         {
             _condition = condition;

@@ -8,9 +8,9 @@ namespace MassiveAI.Fuzzy
     internal class Consequent : IConsequent
     {
         private readonly List<ICondition> _fuzzyConditions = new List<ICondition>();
-
         private readonly IHasCentroid _memberFunction;
         
+		
         internal Consequent(IHasCentroid memberFunction)
         {
             _memberFunction = memberFunction;
@@ -24,8 +24,8 @@ namespace MassiveAI.Fuzzy
         internal Centroid GetCentroid()
         {
             if (!_fuzzyConditions.Any()) return new Centroid(0, 0);
-            
-            var value = _fuzzyConditions.Select(x => x.Evaluate()).Max();
+
+            double value = _fuzzyConditions.Select(x => x.Evaluate()).Max();
             return _memberFunction.GetCentroid(value);
         }
     }

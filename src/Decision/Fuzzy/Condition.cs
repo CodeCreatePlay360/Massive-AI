@@ -41,7 +41,7 @@ namespace MassiveAI.Fuzzy
         {
             return new Condition(() =>
             {
-                var value = a.Evaluate();
+                double value = a.Evaluate();
                 return 1 - value;
             });
         }

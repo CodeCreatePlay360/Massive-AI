@@ -1,5 +1,6 @@
 ﻿using MassiveAI.Fuzzy.Interfaces;
 
+
 namespace MassiveAI.Fuzzy
 {
     public static class FuzzyRule
