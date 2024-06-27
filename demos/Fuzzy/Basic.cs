@@ -1,53 +1,71 @@
+using UnityEngine;
 using System.Collections.Generic;
 using MassiveAI.Fuzzy.MemberFunctions;
 
 
 namespace MassiveAI.Fuzzy
 {
-    public class Basic : UnityEngine.MonoBehaviour
-    {		
-        private void Start()
+    /// <summary>
+    /// Basic class demonstrates the use of fuzzy logic in game AI.
+    /// It evaluates the health status of a character and determines
+	/// whether the character should flee. The fuzzy logic system uses
+	/// linguistic variables to map health levels and make decisions.
+    /// </summary>
+    public class FuzzyBasic : UnityEngine.MonoBehaviour
+    {
+        // Public field to set the health value via the Unity Inspector
+        [Range(0, 100)]
+        public int healthValue = 0;
+
+        // Private fields for fuzzy input and output
+        private FuzzyInput healthStatus;  // Fuzzy input for health status
+        private FuzzyOutput shouldFlee;   // Fuzzy output for flee decision
+
+        // Constants representing different health levels
+		// (fuzzy linguistic variables)
+        private const int low = 0;
+        private const int medium = 1;
+        private const int high = 2;
+
+        // Cached value to store the last health value
+        private int lastHealthVal;
+
+
+        public void Start()
         {
-			/**
-			* This class represents a simple onboard automated fire alarm control system.
-			* It alerts operators about potential fire threats on a scale of 0 to 100.
-			* This approach is beneficial because there is no single fixed temperature that can trigger a fire.
-			* Instead, it provides operators with a threat level, helping them assess and respond to potential fire risks.
-			*/
+            // Initialize fuzzy input and output
+            healthStatus = new FuzzyInput(() => healthValue);
+            shouldFlee = new FuzzyOutput();
 
-            // Crisp temperature value as received from sensors.
-            int temperatureValue = 12;  // this value can range from 0-min to 100-max
+            // Map health levels to fuzzy sets (membership functions)
+            healthStatus.Set(low, new LeftShoulder(0, 15, 30));
+            healthStatus.Set(medium, new Triangle(15, 45, 60));
+            healthStatus.Set(high, new RightShoulder(45, 70, 100));
 
-            // Define constants representing fuzzy sets for 
-            // different levels or statuses.
-            const int low = 0;
-            const int medium = 1;
-            const int high = 2;
+            // Map flee decision levels to fuzzy sets
+            shouldFlee.Set(low, new Triangle(-0.5, 0.0, 0.5));
+            shouldFlee.Set(medium, new Trapezoidal(0, 0.3, 0.7, 1));
+            shouldFlee.Set(high, new Triangle(0.55, 1, 1.5));
 
-            // Convert the crisp input values (i.e. temperatureValue) into fuzzy values,
-            // for each of the temperature levels (i.e low, medium, high) using the 
-			// membership functions for the input fuzzy sets.
-            FuzzyInput temperature = new(() => temperatureValue);
-            temperature.Set(low,    new Triangle(0, 25, 50));
-            temperature.Set(medium, new Triangle(25, 50, 75));
-            temperature.Set(high,   new Triangle(50, 75, 100));
-			
-            // Create a FuzzyOutput to represent the threat level, for each of the different
-			// levels of temperature (i.e low, medium, high)
-            FuzzyOutput threatLevel = new();
-            threatLevel.Set(low,    new LeftShoulder(0, 0.3));
-            threatLevel.Set(medium, new Triangle(0.3, 0.5, 0.7));
-            threatLevel.Set(high,   new RightShoulder(0.7, 1.0));
+            // Create fuzzy rules for decision making
+            FuzzyRule.If(healthStatus.Is(high)).Then(shouldFlee.Is(low));
+            FuzzyRule.If(healthStatus.Is(medium)).Then(shouldFlee.Is(medium));
+            FuzzyRule.If(healthStatus.Is(low)).Then(shouldFlee.Is(high));
 
-            // Create fuzzy rules to determine threat level based on temperature.
-            FuzzyRule.If(temperature.Is(low)).Then(threatLevel.Is(low));
-            FuzzyRule.If(temperature.Is(medium)).Then(threatLevel.Is(medium));
-            FuzzyRule.If(temperature.Is(high)).Then(threatLevel.Is(high));
+            // Cache the initial health value
+            lastHealthVal = healthValue;
+        }
 
-            // Evaluate the fuzzy output for the threat level and log the result.
-			double threatVal = System.Math.Round(threatLevel.Evaluate(), 3);
-            string msg = $"Threat level when temperature is {temperatureValue} = {threatVal}";
-            UnityEngine.Debug.Log(msg);
-        }		
+        private void Update()
+        {
+            // Check if the health value has changed
+            if (lastHealthVal != healthValue)
+            {
+                UnityEngine.Debug.Log($"Flee(Health: {healthStatus.Value}) = {shouldFlee.Evaluate()}");
+
+                // Update the cached health value
+                lastHealthVal = healthValue;
+            }
+        }
     }
 }

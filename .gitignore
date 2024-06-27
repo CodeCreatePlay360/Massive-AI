@@ -72,3 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 *.meta
 *.backup
+Utils/AutonomousAgent/Action.cs
+Utils/AutonomousAgent/AutonomousAgent.cs
+Utils/AutonomousAgent/Condition.cs
+src/Decision/Fuzzy/Utils.cs
