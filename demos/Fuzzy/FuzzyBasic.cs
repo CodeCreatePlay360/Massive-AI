@@ -27,7 +27,7 @@ namespace MassiveAI.Fuzzy
         private const int medium = 1;
         private const int high = 2;
 
-        // Cached value to store the last health value
+        // Cache
         private int lastHealthVal;
 
 
@@ -35,17 +35,17 @@ namespace MassiveAI.Fuzzy
         {
             // Initialize fuzzy input and output
             healthStatus = new FuzzyInput(() => healthValue);
-            shouldFlee = new FuzzyOutput();
+            shouldFlee   = new FuzzyOutput();
 
             // Map health levels to fuzzy sets (membership functions)
-            healthStatus.Set(low, new LeftShoulder(0, 15, 30));
+            healthStatus.Set(low,    new LeftShoulder(0, 15, 30));
             healthStatus.Set(medium, new Triangle(15, 45, 60));
-            healthStatus.Set(high, new RightShoulder(45, 70, 100));
+            healthStatus.Set(high,   new RightShoulder(45, 70, 100));
 
             // Map flee decision levels to fuzzy sets
-            shouldFlee.Set(low, new Triangle(-0.5, 0.0, 0.5));
-            shouldFlee.Set(medium, new Trapezoidal(0, 0.3, 0.7, 1));
-            shouldFlee.Set(high, new Triangle(0.55, 1, 1.5));
+            shouldFlee.Set(low,    new LeftShoulder(-0.5, 0.0, 0.5));
+            shouldFlee.Set(medium, new Trapezoid(0, 0.3, 0.7, 1));
+            shouldFlee.Set(high,   new RightShoulder(0.5, 1, 1.5));
 
             // Create fuzzy rules for decision making
             FuzzyRule.If(healthStatus.Is(high)).Then(shouldFlee.Is(low));
@@ -62,7 +62,6 @@ namespace MassiveAI.Fuzzy
             if (lastHealthVal != healthValue)
             {
                 UnityEngine.Debug.Log($"Flee(Health: {healthStatus.Value}) = {shouldFlee.Evaluate()}");
-
                 // Update the cached health value
                 lastHealthVal = healthValue;
             }

@@ -1,5 +1,5 @@
 <h4 align="left">
-MassiveAI is a library of AI programming and logic-design tools for creating autonomous agents and logic driven systems. It also includes tools for communication, spatial querying, and navigation. Designed with ease of use and flexibility in mind, all components of this library can function independently or can be integrated seamlessly. Currently, most of the MassiveAI components are written in C#. However, the long-term goal is to port it to C++, expanding its usability across different game engines and software platforms.
+MassiveAI is a library of AI programming and logic-design tools for creating autonomous agents and logic driven systems. It also includes tools for communication, spatial querying, and navigation. The library is designed with ease of use and flexibility in mind, and can be seamlessly integrated with other systems.<br> Currently, most of the MassiveAI components are written in C#. However, the long-term goal is to port it to C++, expanding its usability across different game engines and software platforms.
 </h4>
 
 <h3 align="center">Community</h3>
@@ -214,7 +214,7 @@ actionsSeq.IsStopped()
 
 Fuzzy logic is a form of logic that allows reasoning to be approximate rather than fixed and exact. It is particularly useful in applications where human-like reasoning is needed, as it can handle the concept of partial truth—truth values between completely true and completely false. This is in contrast to classical logic, where every statement must be either true or false.  
 
-To learn more about FuzzyLogic, it is highly recommended to see chapter #10 of 'Programming Game AI by Example' by 'Mat Buckland'. The code below demonstrates a basic usage of FuzzyLogic using the current implementation. See the comments along code for detailed explanation.
+For more information on fuzzy logic, it is highly recommended to read Chapter 10 of "Programming Game AI by Example" by Mat Buckland. The code below demonstrates a basic usage of FuzzyLogic using the current implementation. See the comments along code for detailed explanation.
 
 ```
 using UnityEngine;
@@ -241,7 +241,7 @@ namespace MassiveAI.Fuzzy
         private FuzzyOutput shouldFlee;   // Fuzzy output for flee decision
 
         // Constants representing different health levels
-		// (fuzzy linguistic variables)
+        // (fuzzy linguistic variables)
         private const int low = 0;
         private const int medium = 1;
         private const int high = 2;
@@ -263,8 +263,8 @@ namespace MassiveAI.Fuzzy
 
             // Map flee decision levels to fuzzy sets
             shouldFlee.Set(low, new Triangle(-0.5, 0.0, 0.5));
-            shouldFlee.Set(medium, new Trapezoidal(0, 0.3, 0.7, 1));
-            shouldFlee.Set(high, new Triangle(0.55, 1, 1.5));
+            shouldFlee.Set(medium, new Trapezoid(0, 0.3, 0.7, 1));
+            shouldFlee.Set(high, new Triangle(0.5, 1, 1.5));
 
             // Create fuzzy rules for decision making
             FuzzyRule.If(healthStatus.Is(high)).Then(shouldFlee.Is(low));

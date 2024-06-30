@@ -76,3 +76,8 @@ Utils/AutonomousAgent/Action.cs
 Utils/AutonomousAgent/AutonomousAgent.cs
 Utils/AutonomousAgent/Condition.cs
 src/Decision/Fuzzy/Utils.cs
+demos/commons/art/TestScene.unity
+demos/commons/art/materials/Grid 1.mat
+demos/commons/art/materials/Grid 2.mat
+demos/commons/art/textures/altdev_generic02.png
+demos/commons/art/textures/altdev_generic03.png
