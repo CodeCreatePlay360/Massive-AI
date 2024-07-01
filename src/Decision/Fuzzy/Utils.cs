@@ -45,6 +45,9 @@ namespace MassiveAI.Fuzzy.Utils
 	{				
 		public static void FitMembershipFunctions(double min, double max, MembershipFunctionInfo[] functionInfos, FuzzyInput inputSet)
 		{
+			if(min < 0)
+			{ Debug.LogError("MembershipFunction 'min value' must be greater than 0"); return; } 
+			
 			double totalRange = max - min;
 			double range = totalRange / functionInfos.Length;  // coverage area (horizontal) for one shape
 
@@ -72,7 +75,13 @@ namespace MassiveAI.Fuzzy.Utils
 						
 						// calculate in between points a and b
 						double a = start + (1.0/3.0) * (end-start);
+						a -= start * centerScale;
+						a = System.Math.Clamp(a, start, (start + end) /2f);
+						
 						double b = start + (2.0/3.0) * (end-start);
+						b += start * centerScale;
+						b = System.Math.Clamp(b, (start + end) /2f, end);
+						
 						inputSet.Set(functionInfos[i].FLV, new Trapezoid(start, a, b, end));
 						//Debug.LogFormat("Trapezoid ShapeCreate {0}-{1}-{2}-{3}", start, a, b, end);
 						break;
@@ -91,9 +100,12 @@ namespace MassiveAI.Fuzzy.Utils
 				}
 			}
 		}
-		
+
 		public static void FitMembershipFunctions(double min, double max, MembershipFunctionInfo[] functionInfos, FuzzyOutput outputSet)
 		{
+			if(min < 0)
+			{ Debug.LogError("MembershipFunction 'min value' must be greater than 0"); return; } 
+			
 			double totalRange = max - min;
 			double range = totalRange / functionInfos.Length;  // coverage area (horizontal) for one shape
 
@@ -116,9 +128,18 @@ namespace MassiveAI.Fuzzy.Utils
 						break;
 						
 					case ShapeType.Trapezoid: 
+						// cast to trapezoid info
+						float centerScale = ((TrapezoidFunctionInfo)functionInfos[i]).centerScale;
+						
 						// calculate in between points a and b
 						double a = start + (1.0/3.0) * (end-start);
+						a -= start * centerScale;
+						a = System.Math.Clamp(a, start, (start + end) /2f);
+						
 						double b = start + (2.0/3.0) * (end-start);
+						b += start * centerScale;
+						b = System.Math.Clamp(b, (start + end) /2f, end);
+						
 						outputSet.Set(functionInfos[i].FLV, new Trapezoid(start, a, b, end));
 						//Debug.LogFormat("Trapezoid ShapeCreate {0}-{1}-{2}-{3}", start, a, b, end);
 						break;
@@ -126,7 +147,7 @@ namespace MassiveAI.Fuzzy.Utils
 					case ShapeType.LeftShoulder:
 						peak = (start + end) / 2.0;
 						outputSet.Set(functionInfos[i].FLV, new LeftShoulder(start, peak, end));
-						//Debug.LogFormat("LeftShoulder ShapeCreate {0}-{1}-{2}", start, peak, end);
+						Debug.LogFormat("LeftShoulder ShapeCreate {0}-{1}-{2}", start, peak, end);
 						break;
 						
 					case ShapeType.RightShoulder:
