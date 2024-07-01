@@ -62,6 +62,7 @@ namespace MassiveAI.Fuzzy
             if (lastHealthVal != healthValue)
             {
                 UnityEngine.Debug.Log($"Flee(Health: {healthStatus.Value}) = {shouldFlee.Evaluate()}");
+				
                 // Update the cached health value
                 lastHealthVal = healthValue;
             }
