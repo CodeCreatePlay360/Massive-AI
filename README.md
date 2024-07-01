@@ -296,4 +296,48 @@ It is also possible to use and combine conditional 'if, else, else-if' statement
 FuzzyRule.If(condition01.Is(low)).And(condition02.Is(high)).Then(consequence01.Is(low)).And(consequence02.Is(high));
 ```
 
-See "AdvancedFuzzy.cs" for an advanced usage of FuzzyLogic, in your projects.
+There is also a utility class that simplifies defining membership functions over a given range, by allowing users to define properties of a membership functions like percentage of area covered and overlapping with neighboring functions. This eliminates the need to explicitly specify minimum, maximum, or center positions, making the process less time-consuming and easier to tweak.
+
+```
+using MassiveAI.Fuzzy.MemberFunctions;
+
+
+// In this utility method, we use 'MembershipFunctionInfo' class to define 
+// properties of a  membership function.
+// All shapes except Trapezoid are defined using 'MembershipFunctionInfo'
+// while 'Trapezoid' is defined using 'TrapezoidFunctionInfo'. 
+// We then use 'FitMembershipFunctions' to add these membership function 
+// to a fuzzy input or output variable.
+
+/*
+MembershipFunctionInfo(shapeType, leftOverlap, rightOverlap, flv)
+   - shapeType: The type of the shape (e.g., Triangle, Trapezoid).
+   - leftOverlap: Overlap percentage with the left shape.
+   - rightOverlap: Overlap percentage with the right shape.
+   - flv: The fuzzy linguistic variable represented by this shape.
+
+TrapezoidFunctionInfo(leftOverlap, flatTopSize, rightOverlap, flv)
+   - leftOverlap: Overlap percentage with the left shape.
+   - flatTopSize: Size of the flat top.
+   - rightOverlap: Overlap percentage with the right shape.
+   - flv: The fuzzy linguistic variable represented by this shape.
+
+FuzzyUtils.FitMembershipFunctions(minRange, maxRange, functionInfos, fuzzyVariable)
+   - minRange: Minimum range value.
+   - maxRange: Maximum range value.
+   - functionInfos: Collection of MembershipFunctionInfo(s).
+   - fuzzyVariable: The fuzzy input or output variable.
+*/
+
+
+MembershipFunctionInfo[] functionInfos = new MembershipFunctionInfo[3]
+{
+    new MembershipFunctionInfo(ShapeType.Triangle, 0.5f, 0.5f, low),
+    new TrapezoidFunctionInfo(ShapeType.Trapezoid, 0.5f, 0.125f, 0.5f, medium),
+    new MembershipFunctionInfo(ShapeType.Triangle, 0.5f, 0.5f, high)
+};
+
+FuzzyUtils.FitMembershipFunctions(0, 2, functionInfos, fuzzyInput or Output);
+```
+
+See "FuzzyAdvanced.cs" for an advanced usage of FuzzyLogic, in your projects.
