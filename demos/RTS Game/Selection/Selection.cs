@@ -8,12 +8,9 @@ namespace CodeCreatePlay.Selection
     {
 		public LayerMask selectableMask;
         public LayerMask groundMask;
-		
         public Camera mainCam;
 		
-		public List<GameObject> allEntities { get; private set; } = new();
-		
-		[SerializeField]
+		public  List<GameObject> allEntities { get; private set; } = new();
 		private List<GameObject> selectedEntities = new();
 		
         public List<GameObject> SelectedEntities

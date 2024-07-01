@@ -14,7 +14,7 @@ namespace CodeCreatePlay.Selection
         private void Start()
         {
             startPos = Vector2.zero;
-            endPos = Vector2.zero;
+            endPos   = Vector2.zero;
 
             DrawVisual();
         }

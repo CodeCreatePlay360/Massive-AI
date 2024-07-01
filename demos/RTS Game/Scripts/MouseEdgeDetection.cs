@@ -10,6 +10,7 @@ namespace CodeCreatePlay.Utils
 		// private
 		[SerializeField]
 		private EdgeDirection_ edgeDirection = EdgeDirection_.none;
+		
 		[SerializeField]
 		private Vector2 edgeDirectionVector;
 		

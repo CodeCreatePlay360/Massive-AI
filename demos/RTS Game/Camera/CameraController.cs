@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace CodeCreatePlay.RTSDemo
+namespace CodeCreatePlay.RTSGame
 {	
 	using CodeCreatePlay.Utils;
 	
